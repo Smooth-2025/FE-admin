@@ -21,7 +21,28 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    /* path */
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"],
+      "@app/*": ["app/*"],
+      "@images/*": ["images/*"],
+      "@fonts/*": ["assets/fonts/*"],
+      "@api/*": ["shared/api/*"],
+      "@hooks/*": ["shared/hooks/*"],
+      "@store/*": ["shared/store/*"],
+      "@styles/*": ["shared/styles/*"],
+      "@utils/*": ["shared/utils/*"],
+      "@login/*": ["pages/login/*"],
+      "@login": ["pages/login/index.tsx"],
+      "@potholes/*": ["pages/potholes/*"],
+      "@pothole": ["pages/potholes/index.tsx"],
+      "@reports/*": ["pages/reports/*"],
+      "@report": ["pages/reports/index.tsx"],
+      "@notfound": ["pages/notfound/index.tsx"]
+    }
   },
   "include": ["src"]
 }
