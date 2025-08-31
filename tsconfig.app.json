@@ -36,13 +36,15 @@
       "@store/*": ["shared/store/*"],
       "@styles/*": ["shared/styles/*"],
       "@utils/*": ["shared/utils/*"],
+      "@shared-types/*": ["shared/types/*"],
       "@login/*": ["pages/login/*"],
       "@login": ["pages/login/index.tsx"],
       "@potholes/*": ["pages/potholes/*"],
       "@pothole": ["pages/potholes/index.tsx"],
       "@reports/*": ["pages/reports/*"],
       "@report": ["pages/reports/index.tsx"],
-      "@notfound": ["pages/notfound/index.tsx"]
+      "@notfound": ["pages/notfound/index.tsx"],
+      "@notfound/*": ["pages/notfound/*"]
     }
   },
   "include": ["src"]
