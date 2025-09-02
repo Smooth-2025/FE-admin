@@ -96,7 +96,7 @@ export const GlobalStyle = () => (
         margin: 0;
         padding: 0;
         font-family: 'Pretendard', sans-serif;
-        background: #f9f9f9;
+        background: #fff;
         color: #222;
       }
 
