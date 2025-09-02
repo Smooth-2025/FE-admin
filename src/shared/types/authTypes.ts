@@ -4,9 +4,11 @@ export type LoginRequest = {
 };
 
 export type LoginSuccessData = {
-  userId: number;
   name: string;
-  role: 'ADMIN' | 'USER';
+  token: string;
+};
+
+export type RefreshSuccessData = {
   token: string;
 };
 
@@ -18,3 +20,4 @@ export type ApiResponse<T> = {
 };
 
 export type LoginResponse = ApiResponse<LoginSuccessData>;
+export type RefreshResponse = ApiResponse<RefreshSuccessData>;

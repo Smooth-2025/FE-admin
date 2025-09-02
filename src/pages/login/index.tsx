@@ -1,16 +1,15 @@
+import { useLoginMutation } from '@api/authApi';
+import Background from '@components/Background';
 import FormField from '@login/components/FormField';
 import * as S from '@login/loginPage.style';
+import { getErrorMessage } from '@utils/errorUtil';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useLoginMutation } from '@/shared/api/loginApi';
-import Background from '@/shared/components/Background';
-import { getErrorMessage } from '@/shared/utils/errorUtil';
-
 export default function LoginPage() {
-  const [loginId, setLoginId] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [loginId, setLoginId] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [error, setError] = useState<string>('');
 
   const [login, { isLoading }] = useLoginMutation();
 
@@ -24,7 +23,6 @@ export default function LoginPage() {
       .unwrap()
       .then((res) => {
         if (res.success) {
-          console.log('로그인 성공:', res.data);
           navigate('/');
         } else {
           setError(res.message);
@@ -56,11 +54,11 @@ export default function LoginPage() {
             value={password}
             onChange={setPassword}
           />
+          {error && <S.Error>{error}</S.Error>}
+          <S.Submit type="submit" disabled={isLoading}>
+            로그인
+          </S.Submit>
         </S.Form>
-        {error && <S.Error>{error}</S.Error>}
-        <S.Submit type="submit" disabled={isLoading}>
-          로그인
-        </S.Submit>
       </S.Card>
     </Background>
   );

@@ -1,7 +1,6 @@
+import Background from '@components/Background';
 import * as S from '@notfound/notFoundPage.style';
 import { useNavigate } from 'react-router-dom';
-
-import Background from '@/shared/components/Background';
 export default function NotFoundPage() {
   const navigate = useNavigate();
   const handleBack = () => navigate('/');
