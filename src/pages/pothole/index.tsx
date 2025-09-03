@@ -1,3 +1,5 @@
+import * as S from '@pothole/potholePage.style';
+
 export default function PotholePage() {
-  return <div>PotholePage</div>;
+  return <S.Container>PotholePage</S.Container>;
 }

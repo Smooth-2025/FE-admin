@@ -1,10 +1,29 @@
+import { useLogoutMutation } from '@api/authApi';
 import * as S from '@app/navTab.style';
 import logoutIcon from '@images/logout.png';
-
-import { authStorage } from '@/shared/utils/authStorage';
+import { authStorage } from '@utils/authStorage';
+import { getErrorMessage } from '@utils/errorUtil';
+import { useNavigate } from 'react-router-dom';
 
 export default function NavTab() {
   const userName = authStorage.getName();
+  const [logout] = useLogoutMutation();
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout()
+      .unwrap()
+      .then((res) => {
+        if (res.success) {
+          navigate('/');
+        }
+      })
+      .catch((err) => {
+        getErrorMessage(err);
+      });
+  };
+
   return (
     <S.Header>
       <S.Container>
@@ -15,7 +34,7 @@ export default function NavTab() {
         </S.CenterSection>
         <S.RightSection>
           <S.Profile>{userName}</S.Profile>
-          <S.Logout>
+          <S.Logout onClick={handleLogout}>
             <img src={logoutIcon} alt="logout" />
           </S.Logout>
         </S.RightSection>
