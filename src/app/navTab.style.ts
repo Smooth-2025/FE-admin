@@ -27,6 +27,7 @@ export const LeftSection = styled.p`
   color: ${({ theme }) => theme.colors.neutral600};
   font-size: ${({ theme }) => theme.fontSize[20]};
   font-weight: 700;
+  line-height: 1.5;
 `;
 
 export const CenterSection = styled.div`
