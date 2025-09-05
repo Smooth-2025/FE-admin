@@ -6,7 +6,6 @@ export const store = configureStore({
     [baseApi.reducerPath]: baseApi.reducer,
   },
   middleware: (getDefault) => getDefault().concat(baseApi.middleware),
-  devTools: import.meta.env.DEV,
 });
 
 export type RootState = ReturnType<typeof store.getState>;
