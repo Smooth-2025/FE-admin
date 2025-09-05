@@ -61,7 +61,7 @@ export default function PotholeInfoSection() {
         <S.ActionSection>{data && <DownloadExcelButton data={data.content} />}</S.ActionSection>
       </S.Wrapper>
 
-      {<PotholeTable data={data?.content} isLoading={isLoading} />}
+      <PotholeTable data={data?.content} isLoading={isLoading} />
     </>
   );
 }
