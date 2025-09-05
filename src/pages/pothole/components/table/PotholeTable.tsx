@@ -1,19 +1,20 @@
 import { Empty, Table } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
+import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import { useState } from 'react';
 
-import { POTHOLE_DUMI } from '@/pages/pothole/components/dumiData';
 import BaseModal from '@/shared/components/modal/BaseModal';
 import type { Pothole } from '@/shared/types/potholeTypes';
 
 import * as S from './PotholeTable.style';
+
+const PAGE_SIZE = 10;
 
 type PropsType = {
   data?: Pothole[];
   isLoading: boolean;
 };
 
-export default function PotholeTable({ data = POTHOLE_DUMI, isLoading }: PropsType) {
+export default function PotholeTable({ data = [], isLoading }: PropsType) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
@@ -32,7 +33,7 @@ export default function PotholeTable({ data = POTHOLE_DUMI, isLoading }: PropsTy
       title: 'ID',
       key: 'id',
       align: 'center',
-      render: (_: unknown, __: Pothole, index: number) => index + 1,
+      render: (_: unknown, __: Pothole, index: number) => (currentPage - 1) * PAGE_SIZE + index + 1,
     },
     {
       title: '포트홀 ID',
@@ -99,6 +100,12 @@ export default function PotholeTable({ data = POTHOLE_DUMI, isLoading }: PropsTy
     },
   ];
 
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handleTableChange = (pagination: TablePaginationConfig) => {
+    setCurrentPage(pagination.current ?? 1);
+  };
+
   return (
     <>
       <Table
@@ -115,6 +122,8 @@ export default function PotholeTable({ data = POTHOLE_DUMI, isLoading }: PropsTy
             </S.EmptyWrapper>
           ),
         }}
+        pagination={{ pageSize: PAGE_SIZE, position: ['bottomCenter'] }}
+        onChange={handleTableChange}
       />
       <BaseModal open={isModalOpen} onClose={handleClose} title={selectedImage ?? ''}>
         <S.ModalContent>
