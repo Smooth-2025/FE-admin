@@ -22,7 +22,9 @@ export default defineConfig({
       '@store': path.resolve(__dirname, './src/shared/store'),
       '@styles': path.resolve(__dirname, './src/shared/styles'),
       '@utils': path.resolve(__dirname, './src/shared/utils'),
-      '@login': path.resolve(__dirname, '/src/pages/login'),
+      '@shared-types': path.resolve(__dirname, './src/shared/types'),
+      
+      '@login': path.resolve(__dirname, './src/pages/login'),
       '@pothole': path.resolve(__dirname, './src/pages/pothole'),
       '@report': path.resolve(__dirname, './src/pages/report'),
       '@notfound': path.resolve(__dirname, './src/pages/notfound'),

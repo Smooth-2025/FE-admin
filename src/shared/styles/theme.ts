@@ -27,6 +27,7 @@ export const theme = {
     black: '#000000',
     white: '#ffffff',
     black_a60: 'rgba(0, 0, 0, 0.6)',
+    black_a12: 'rgba(0, 0, 0, 0.12)',
     success700: '#0C9D61',
     success600: '#47B881',
     bg_page: '#F3F4F8',
@@ -53,6 +54,7 @@ export const theme = {
     36: '2.25rem',
     38: '2.375rem',
     40: '2.5rem',
+    64: '4rem',
   },
 };
 

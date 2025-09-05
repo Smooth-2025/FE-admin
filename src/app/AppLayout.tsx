@@ -1,9 +1,13 @@
+import * as S from '@app/appLayout.style';
+import NavTab from '@app/NavTab';
 import { Outlet } from 'react-router-dom';
-
-export default function appLayout() {
+export default function AppLayout() {
   return (
-    <div>
-      <Outlet />
-    </div>
+    <>
+      <NavTab />
+      <S.Container>
+        <Outlet />
+      </S.Container>
+    </>
   );
 }
