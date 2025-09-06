@@ -1,5 +1,10 @@
 import { baseApi } from '@api/baseApi';
-import type { PagedResponse, PotholeResponse } from '@shared-types/potholeTypes';
+import type {
+  ConfirmPotholeRequest,
+  ConfirmPotholeResponse,
+  PagedResponse,
+  PotholeResponse,
+} from '@shared-types/potholeTypes';
 import { type Pothole } from '@shared-types/potholeTypes';
 
 export type PotholeListParams = {
@@ -41,8 +46,17 @@ export const potholeApi = baseApi.injectEndpoints({
           : [{ type: 'Potholes' as const, id: 'LIST' }],
       keepUnusedDataFor: 3600,
     }),
+    confirmPothole: build.mutation<ConfirmPotholeResponse, ConfirmPotholeRequest>({
+      query: (body) => ({
+        url: '/api/pothole/data/confirm',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: [{ type: 'Potholes', id: 'LIST' }],
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetPotholeListQuery, useLazyGetPotholeListQuery } = potholeApi;
+export const { useGetPotholeListQuery, useLazyGetPotholeListQuery, useConfirmPotholeMutation } =
+  potholeApi;
