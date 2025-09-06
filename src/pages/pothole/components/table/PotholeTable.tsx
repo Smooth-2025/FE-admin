@@ -2,7 +2,9 @@ import { Empty, Table } from 'antd';
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import { useState } from 'react';
 
+import { useConfirmPotholeMutation } from '@/shared/api/potholeApi';
 import BaseModal from '@/shared/components/modal/BaseModal';
+import ToastAlert from '@/shared/components/ToastAlert';
 import type { Pothole } from '@/shared/types/potholeTypes';
 
 import * as S from './PotholeTable.style';
@@ -12,20 +14,33 @@ const PAGE_SIZE = 10;
 type PropsType = {
   data?: Pothole[];
   isLoading: boolean;
+  currentPage: number;
+  onPageChange?: (page: number) => void;
+  pageSize: number;
 };
 
-export default function PotholeTable({ data = [], isLoading }: PropsType) {
+export default function PotholeTable({
+  data,
+  isLoading,
+  currentPage,
+  onPageChange,
+  pageSize,
+}: PropsType) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedData, setSelectedData] = useState<Pothole | null>(null);
+  const [alertInfo, setAlertInfo] = useState<{ type: 'success' | 'error'; message: string } | null>(
+    null,
+  );
 
-  const handleModalOpen = (url: string) => {
-    setSelectedImage(url);
+  const handleModalOpen = (selected: Pothole) => {
+    if (!selected.potholeId) return;
+    setSelectedData(selected);
     setIsModalOpen(true);
   };
 
   const handleClose = () => {
     setIsModalOpen(false);
-    setSelectedImage(null);
+    setSelectedData(null);
   };
 
   const columns: ColumnsType<Pothole> = [
@@ -82,8 +97,10 @@ export default function PotholeTable({ data = [], isLoading }: PropsType) {
       title: '이미지',
       dataIndex: 'imageUrl',
       key: 'imageUrl',
-      render: (url?: string) =>
-        url ? <S.ViewButton onClick={() => handleModalOpen(url)}>보기</S.ViewButton> : null,
+      render: (_: string, record: Pothole) =>
+        record.imageUrl ? (
+          <S.ViewButton onClick={() => handleModalOpen(record)}>보기</S.ViewButton>
+        ) : null,
       align: 'center',
     },
     {
@@ -100,14 +117,45 @@ export default function PotholeTable({ data = [], isLoading }: PropsType) {
     },
   ];
 
-  const [currentPage, setCurrentPage] = useState(1);
-
   const handleTableChange = (pagination: TablePaginationConfig) => {
-    setCurrentPage(pagination.current ?? 1);
+    const newPage = pagination.current ?? 1;
+    if (onPageChange) {
+      onPageChange(newPage);
+    }
+  };
+
+  const [confirmPothole, { isLoading: isConfirming }] = useConfirmPotholeMutation();
+
+  const showAlert = (type: 'success' | 'error', message: string) => {
+    setAlertInfo({ type, message });
+    setTimeout(() => setAlertInfo(null), 3000);
+  };
+
+  const handleConfirm = (potholeId: string) => {
+    confirmPothole({ potholeId })
+      .unwrap()
+      .then((res) => {
+        if (res.success) {
+          showAlert('success', res.message || '포트홀 확정 처리가 완료되었습니다.');
+          handleClose();
+        } else {
+          showAlert('error', '확정 요청이 실패했습니다.다시 시도해주세요.');
+        }
+      })
+      .catch(() => {
+        showAlert('error', '확정 요청이 실패하였습니다. 다시 시도해주세요.');
+      });
   };
 
   return (
     <>
+      {alertInfo && (
+        <ToastAlert
+          type={alertInfo.type}
+          message={alertInfo.message}
+          onClose={() => setAlertInfo(null)}
+        />
+      )}
       <Table
         dataSource={data}
         columns={columns}
@@ -122,17 +170,30 @@ export default function PotholeTable({ data = [], isLoading }: PropsType) {
             </S.EmptyWrapper>
           ),
         }}
-        pagination={{ pageSize: PAGE_SIZE, position: ['bottomCenter'] }}
+        pagination={{
+          current: Math.max(currentPage, 1),
+          pageSize: PAGE_SIZE,
+          total: pageSize * PAGE_SIZE,
+          position: ['bottomCenter'],
+          showSizeChanger: false,
+        }}
         onChange={handleTableChange}
       />
-      <BaseModal open={isModalOpen} onClose={handleClose} title={selectedImage ?? ''}>
+      <BaseModal open={isModalOpen} onClose={handleClose} title={selectedData?.imageUrl ?? ''}>
         <S.ModalContent>
-          {selectedImage && (
+          {selectedData && (
             <>
               <S.ImageWrapper>
-                <img src={selectedImage} alt="포트홀 이미지" />
+                <img src={selectedData.imageUrl} alt="포트홀 이미지" />
               </S.ImageWrapper>
-              <S.ConfirmButton>위험확정</S.ConfirmButton>
+              {!selectedData.confirmed && (
+                <S.ConfirmButton
+                  onClick={() => handleConfirm(selectedData.potholeId)}
+                  disabled={isConfirming}
+                >
+                  위험확정
+                </S.ConfirmButton>
+              )}
             </>
           )}
         </S.ModalContent>

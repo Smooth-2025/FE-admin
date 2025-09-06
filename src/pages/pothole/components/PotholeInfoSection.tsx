@@ -12,6 +12,7 @@ import * as S from './PotholeInfoSection.style';
 type ConfirmedType = 'all' | 'true' | 'false';
 
 export type FilterData = {
+  page: number;
   start: string;
   end: string;
   confirmed: ConfirmedType;
@@ -19,6 +20,7 @@ export type FilterData = {
 
 export default function PotholeInfoSection() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const defaultPage = Number(searchParams.get('page') || 1);
   const defaultStart = searchParams.get('start') || '2025-08-01';
   const defaultEnd = searchParams.get('end') || dayjs().format('YYYY-MM-DD');
   const confirmedParam = searchParams.get('confirmed');
@@ -26,6 +28,7 @@ export default function PotholeInfoSection() {
     !confirmedParam || confirmedParam === 'all' ? 'all' : (confirmedParam as ConfirmedType);
 
   const [filterData, setFilterData] = useState<FilterData>({
+    page: defaultPage,
     start: defaultStart ?? '',
     end: defaultEnd ?? '',
     confirmed: defaultConfirmed,
@@ -33,18 +36,34 @@ export default function PotholeInfoSection() {
 
   const [trigger, { data, isLoading }] = useLazyGetPotholeListQuery();
 
-  useEffect(() => {
-    trigger({ page: 0, start: defaultStart, end: defaultEnd, confirmed: defaultConfirmed });
-  }, [defaultConfirmed, defaultEnd, defaultStart, trigger]);
-
   const handleSearch = () => {
     trigger({
-      page: 0,
       ...filterData,
+      page: 0,
+      confirmed: filterData.confirmed === 'all' ? null : filterData.confirmed,
     });
     setSearchParams({
       ...filterData,
+      page: String(1),
     });
+    setFilterData({
+      ...filterData,
+      page: 1,
+    });
+  };
+
+  useEffect(() => {
+    handleSearch();
+  }, []);
+
+  const handlePageChange = (newPage: number) => {
+    setFilterData({ ...filterData, page: newPage });
+    trigger({
+      ...filterData,
+      page: newPage - 1,
+      confirmed: filterData.confirmed === 'all' ? null : filterData.confirmed,
+    });
+    setSearchParams({ ...filterData, page: String(newPage) });
   };
 
   return (
@@ -61,7 +80,13 @@ export default function PotholeInfoSection() {
         <S.ActionSection>{data && <DownloadExcelButton data={data.content} />}</S.ActionSection>
       </S.Wrapper>
 
-      <PotholeTable data={data?.content} isLoading={isLoading} />
+      <PotholeTable
+        data={data?.content}
+        isLoading={isLoading}
+        currentPage={filterData.page}
+        onPageChange={handlePageChange}
+        pageSize={data?.totalPages ?? 1}
+      />
     </>
   );
 }
