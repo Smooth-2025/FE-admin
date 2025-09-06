@@ -1,3 +1,5 @@
+import '@ant-design/v5-patch-for-react-19';
+
 import AppRouter from '@app/AppRouter';
 import { ThemeProvider } from '@emotion/react';
 import { theme } from '@styles/theme';
