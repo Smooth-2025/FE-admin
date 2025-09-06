@@ -25,3 +25,14 @@ export type PagedResponse<T> = {
 };
 
 export type PotholeResponse = ApiResponse<PagedResponse<Pothole>>;
+
+export type ConfirmPotholeRequest = {
+  potholeId: string;
+};
+
+export type ConfirmPotholeResponse = {
+  success: boolean;
+  code: number;
+  message: string;
+  data: null;
+};

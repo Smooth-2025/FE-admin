@@ -16,7 +16,7 @@ export default function NavTab() {
       .unwrap()
       .then((res) => {
         if (res.success) {
-          navigate('/');
+          navigate('/login');
         }
       })
       .catch((err) => {

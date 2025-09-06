@@ -1,19 +1,24 @@
 import { baseApi } from '@api/baseApi';
-import type { PagedResponse, PotholeResponse } from '@shared-types/potholeTypes';
+import type {
+  ConfirmPotholeRequest,
+  ConfirmPotholeResponse,
+  PagedResponse,
+  PotholeResponse,
+} from '@shared-types/potholeTypes';
 import { type Pothole } from '@shared-types/potholeTypes';
 
 export type PotholeListParams = {
   page?: number;
-  start: string;
-  end: string;
-  confirmed: boolean | null;
+  start?: string | null;
+  end?: string | null;
+  confirmed: string | null;
 };
 
 const buildParams = (p: PotholeListParams) => ({
   page: p.page ?? 0,
-  start: p.start,
-  end: p.end,
-  confirmed: p.confirmed === null ? 'null' : String(p.confirmed),
+  start: p.start ?? null,
+  end: p.end ?? null,
+  confirmed: p.confirmed,
 });
 
 export const potholeApi = baseApi.injectEndpoints({
@@ -41,8 +46,17 @@ export const potholeApi = baseApi.injectEndpoints({
           : [{ type: 'Potholes' as const, id: 'LIST' }],
       keepUnusedDataFor: 3600,
     }),
+    confirmPothole: build.mutation<ConfirmPotholeResponse, ConfirmPotholeRequest>({
+      query: (body) => ({
+        url: '/api/pothole/data/confirm',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: [{ type: 'Potholes', id: 'LIST' }],
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetPotholeListQuery } = potholeApi;
+export const { useGetPotholeListQuery, useLazyGetPotholeListQuery, useConfirmPotholeMutation } =
+  potholeApi;
