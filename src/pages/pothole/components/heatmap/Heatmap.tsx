@@ -17,7 +17,6 @@ import { type IntensityFilter, useHeatmapFilter } from './useHeatmapFilter';
 const HeatmapContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
   font-family: 'Pretendard', sans-serif;
 `;
 
@@ -69,13 +68,13 @@ const ErrorMessage = styled.div`
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   gap: 16px;
-  color: #F64C4C;
+  color: #f64c4c;
   font-size: 1rem;
 `;
 
 const RetryButton = styled.button`
   padding: 10px 20px;
-  background: #3B82F6;
+  background: #3b82f6;
   color: #ffffff;
   border: none;
   border-radius: 8px;
@@ -83,7 +82,7 @@ const RetryButton = styled.button`
   transition: background-color 0.3s ease;
 
   &:hover {
-    background: #3A70E2;
+    background: #3a70e2;
   }
 `;
 
@@ -105,17 +104,12 @@ const Heatmap: React.FC = () => {
   const [heatLoaded, setHeatLoaded] = useState(false);
 
   // RTK Query를 사용한 데이터 가져오기
-  const { 
-    data: potholeData = [], 
-    error: apiError, 
-    isLoading, 
-    refetch 
-  } = useGetAllPotholesQuery();
+  const { data: potholeData = [], error: apiError, isLoading, refetch } = useGetAllPotholesQuery();
 
   // 커스텀 훅을 사용한 필터링 및 통계
   const { filteredData, stats } = useHeatmapFilter({
     data: potholeData,
-    filter: intensityFilter
+    filter: intensityFilter,
   });
 
   // 에러 메시지 처리
@@ -135,10 +129,10 @@ const Heatmap: React.FC = () => {
       if (!mapRef.current) return;
 
       // 히트맵 데이터 포맷 변환 [lat, lng, intensity]
-      const heatmapData: [number, number, number][] = filteredData.map(pothole => [
+      const heatmapData: [number, number, number][] = filteredData.map((pothole) => [
         pothole.location.latitude,
         pothole.location.longitude,
-        pothole.impact / MAP_CONFIG.impactNormalizationFactor
+        pothole.impact / MAP_CONFIG.impactNormalizationFactor,
       ]);
 
       // 새 히트맵 레이어 생성
@@ -166,9 +160,7 @@ const Heatmap: React.FC = () => {
   if (isLoading) {
     return (
       <LoadingContainer>
-        <LoadingMessage>
-          데이터를 불러오는 중...
-        </LoadingMessage>
+        <LoadingMessage>데이터를 불러오는 중...</LoadingMessage>
       </LoadingContainer>
     );
   }
@@ -178,9 +170,7 @@ const Heatmap: React.FC = () => {
       <ErrorContainer>
         <ErrorMessage>
           <div>오류 발생: {errorMessage}</div>
-          <RetryButton onClick={handleRefresh}>
-            🔄 다시 시도
-          </RetryButton>
+          <RetryButton onClick={handleRefresh}>🔄 다시 시도</RetryButton>
         </ErrorMessage>
       </ErrorContainer>
     );
@@ -196,11 +186,7 @@ const Heatmap: React.FC = () => {
           onFilterChange={handleFilterChange}
           onRefresh={handleRefresh}
         />
-        <HeatmapStats
-          total={stats.total}
-          confirmed={stats.confirmed}
-          highRisk={stats.highRisk}
-        />
+        <HeatmapStats total={stats.total} confirmed={stats.confirmed} highRisk={stats.highRisk} />
       </HeatmapControls>
 
       <MapWrapper>
@@ -219,14 +205,11 @@ const Heatmap: React.FC = () => {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          
-          {showMarkers && 
+
+          {showMarkers &&
             filteredData
-              .filter(pothole => pothole.confirmed)
-              .map((pothole) => (
-                <PotholeMarker key={pothole.potholeId} pothole={pothole} />
-              ))
-          }
+              .filter((pothole) => pothole.confirmed)
+              .map((pothole) => <PotholeMarker key={pothole.potholeId} pothole={pothole} />)}
         </MapContainer>
 
         <HeatmapLegend />
