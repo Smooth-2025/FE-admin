@@ -3,11 +3,11 @@ import { Button, DatePicker, Dropdown } from 'antd';
 import type { RangePickerProps } from 'antd/es/date-picker';
 import dayjs from 'dayjs';
 
-type ConfirmedType = FilterData['confirmed'];
-
 import type { FilterData } from '@/pages/pothole/components/PotholeInfoSection';
 
 import * as S from './PotholeFilter.style';
+
+type ConfirmedType = FilterData['confirmed'];
 
 type PropsType = {
   filterData: FilterData;
