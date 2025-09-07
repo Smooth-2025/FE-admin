@@ -31,14 +31,13 @@ export default function ReportPage() {
     end: defaultEnd ?? '',
     scale: defaultType,
   });
-
   const [trigger, { data, isLoading }] = useLazyGetReportListQuery();
 
   const handleSearch = () => {
     trigger({
       ...filterData,
       page: 0,
-      type: filterData.scale === 'all' ? null : filterData.scale,
+      scale: filterData.scale === 'all' ? null : filterData.scale,
     });
     setSearchParams({
       ...filterData,
@@ -59,7 +58,7 @@ export default function ReportPage() {
     trigger({
       ...filterData,
       page: newPage - 1,
-      type: filterData.scale === 'all' ? null : filterData.scale,
+      scale: filterData.scale === 'all' ? null : filterData.scale,
     });
     setSearchParams({ ...filterData, page: String(newPage) });
   };

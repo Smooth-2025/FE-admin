@@ -7,21 +7,21 @@ export type ReportListParams = {
   page?: number;
   start?: string | null;
   end?: string | null;
-  type: ScaleType | null;
+  scale: ScaleType | null;
 };
 
 const buildParams = (p: ReportListParams) => ({
   page: p.page ?? 0,
   start: p.start ?? null,
   end: p.end ?? null,
-  ...(p.type !== null ? { type: p.type } : {}),
+  ...(p.scale !== null ? { scale: p.scale } : {}),
 });
 
 export const reportApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getReportList: build.query<PagedResponse<Report>, ReportListParams>({
       query: (args) => ({
-        url: '/api/report/data',
+        url: '/api/accidents',
         method: 'GET',
         params: buildParams(args),
       }),
@@ -29,8 +29,8 @@ export const reportApi = baseApi.injectEndpoints({
       serializeQueryArgs: ({ endpointName, queryArgs }) => {
         const p = buildParams(queryArgs);
         let key = `${endpointName}|page=${p.page}&start=${p.start}&end=${p.end}`;
-        if (p.type !== null) {
-          key += `&type=${p.type}`;
+        if (p.scale !== null) {
+          key += `&scale=${p.scale}`;
         }
         return key;
       },
