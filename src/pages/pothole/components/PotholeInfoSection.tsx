@@ -77,7 +77,9 @@ export default function PotholeInfoSection() {
           />
         </S.FilterSection>
 
-        <S.ActionSection>{data && <DownloadExcelButton data={data.content} />}</S.ActionSection>
+        <S.ActionSection>
+          <DownloadExcelButton />
+        </S.ActionSection>
       </S.Wrapper>
 
       <PotholeTable

@@ -1,4 +1,5 @@
 import { baseApi } from '@api/baseApi';
+import type { ApiResponse } from '@shared-types/apiResponse';
 import type {
   ConfirmPotholeRequest,
   ConfirmPotholeResponse,
@@ -54,9 +55,32 @@ export const potholeApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [{ type: 'Potholes', id: 'LIST' }],
     }),
+    getAllPotholes: build.query<Pothole[], void>({
+      query: () => ({
+        url: '/api/pothole/data/all',
+        method: 'GET',
+      }),
+      transformResponse: (res: ApiResponse<Pothole[]>): Pothole[] => res.data || [],
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map((i: Pothole) => ({
+                type: 'Potholes' as const,
+                id: i.potholeId,
+              })),
+              { type: 'Potholes' as const, id: 'ALL' },
+            ]
+          : [{ type: 'Potholes' as const, id: 'ALL' }],
+      keepUnusedDataFor: 3600,
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetPotholeListQuery, useLazyGetPotholeListQuery, useConfirmPotholeMutation } =
-  potholeApi;
+export const {
+  useGetPotholeListQuery,
+  useLazyGetPotholeListQuery,
+  useConfirmPotholeMutation,
+  useGetAllPotholesQuery,
+  useLazyGetAllPotholesQuery,
+} = potholeApi;

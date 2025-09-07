@@ -179,21 +179,19 @@ export default function PotholeTable({
         }}
         onChange={handleTableChange}
       />
-      <BaseModal open={isModalOpen} onClose={handleClose} title={selectedData?.imageUrl ?? ''}>
+      <BaseModal open={isModalOpen} onClose={handleClose} title={'포트홀 이미지'}>
         <S.ModalContent>
           {selectedData && (
             <>
               <S.ImageWrapper>
                 <img src={selectedData.imageUrl} alt="포트홀 이미지" />
               </S.ImageWrapper>
-              {!selectedData.confirmed && (
-                <S.ConfirmButton
-                  onClick={() => handleConfirm(selectedData.potholeId)}
-                  disabled={isConfirming}
-                >
-                  위험확정
-                </S.ConfirmButton>
-              )}
+              <S.ConfirmButton
+                onClick={() => handleConfirm(selectedData.potholeId)}
+                disabled={isConfirming}
+              >
+                {!selectedData.confirmed ? '확정' : '확정 취소'}
+              </S.ConfirmButton>
             </>
           )}
         </S.ModalContent>

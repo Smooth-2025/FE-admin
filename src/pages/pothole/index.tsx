@@ -3,6 +3,8 @@ import type { TabsProps } from 'antd';
 
 import PotholeInfoSection from '@/pages/pothole/components/PotholeInfoSection';
 
+import Heatmap from './components/heatmap/Heatmap';
+
 const tabsItems: TabsProps['items'] = [
   {
     key: '1',
@@ -16,7 +18,9 @@ const tabsItems: TabsProps['items'] = [
   {
     key: '2',
     label: '히트맵',
-    children: <>분포도</>,
+    children: (
+      <Heatmap />
+    ),
   },
 ];
 
