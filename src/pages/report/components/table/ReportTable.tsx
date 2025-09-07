@@ -4,7 +4,6 @@ import type { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import Table from 'antd/es/table';
 import { useState } from 'react';
 
-import { REPORT_DUMI } from '@/pages/report/components/dumiData';
 import BaseModal from '@/shared/components/modal/BaseModal';
 import type { Report } from '@/shared/types/ReportTypes';
 
