@@ -1,13 +1,12 @@
-import type { MenuProps } from 'antd';
-import { Button, DatePicker, Dropdown } from 'antd';
+import { Button, DatePicker, Dropdown, type MenuProps } from 'antd';
 import type { RangePickerProps } from 'antd/es/date-picker';
 import dayjs from 'dayjs';
 
-import type { FilterData } from '@/pages/pothole/components/PotholeInfoSection';
+import type { FilterData } from '@/pages/report';
 
-import * as S from './PotholeFilter.style';
+import * as S from './ReportFilter.style';
 
-type ConfirmedType = FilterData['confirmed'];
+type Type = FilterData['scale'];
 
 type PropsType = {
   filterData: FilterData;
@@ -15,26 +14,26 @@ type PropsType = {
   onSearch: () => void;
 };
 
-type ConfirmedMenuItem = {
+type typeMenuItem = {
   key: string;
   label: string;
 };
 
 const { RangePicker } = DatePicker;
 
-const DROPDOWN_ITEMS: ConfirmedMenuItem[] = [
+const DROPDOWN_ITEMS: typeMenuItem[] = [
   { key: '1', label: '전체' },
-  { key: '2', label: '확정' },
-  { key: '3', label: '미확정' },
+  { key: '2', label: '심각' },
+  { key: '3', label: '보통' },
 ];
 
-const CONFIRMED_MAP: Record<string, ConfirmedType> = {
+const SCALE_MAP: Record<string, Type> = {
   '1': 'all',
-  '2': 'true',
-  '3': 'false',
+  '2': 'high',
+  '3': 'medium',
 };
 
-export default function PotholeFilter({ filterData, setFilterData, onSearch }: PropsType) {
+export default function ReportFilter({ filterData, setFilterData, onSearch }: PropsType) {
   const handleRangePickerChange: RangePickerProps['onChange'] = (dates) => {
     if (dates) {
       setFilterData((prev) => ({
@@ -45,10 +44,10 @@ export default function PotholeFilter({ filterData, setFilterData, onSearch }: P
     }
   };
 
-  const handleConfirmedChange: MenuProps['onClick'] = (e) => {
+  const handleTypeChange: MenuProps['onClick'] = (e) => {
     setFilterData((prev) => ({
       ...prev,
-      confirmed: CONFIRMED_MAP[e.key],
+      scale: SCALE_MAP[e.key],
     }));
   };
 
@@ -64,17 +63,13 @@ export default function PotholeFilter({ filterData, setFilterData, onSearch }: P
       </S.FilterItem>
 
       <S.WideFilterItem>
-        <span>처리 상태</span>
+        <span>사고유형</span>
         <Dropdown
-          menu={{ items: DROPDOWN_ITEMS, onClick: handleConfirmedChange }}
+          menu={{ items: DROPDOWN_ITEMS, onClick: handleTypeChange }}
           placement="bottomLeft"
         >
           <Button>
-            {filterData.confirmed === 'all'
-              ? '전체'
-              : filterData.confirmed === 'true'
-                ? '확정'
-                : '미확정'}
+            {filterData.scale === 'all' ? '전체' : filterData.scale === 'high' ? '심각' : '보통'}
           </Button>
         </Dropdown>
       </S.WideFilterItem>
