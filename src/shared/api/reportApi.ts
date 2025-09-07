@@ -1,7 +1,7 @@
 import { baseApi } from '@api/baseApi';
-import { type Report } from '@shared-types/ReportTypes';
+import { type Report } from '@shared-types/reportTypes';
 
-import type { PagedResponse, ReportResponse, ScaleType } from '@/shared/types/ReportTypes';
+import type { PagedResponse, ReportResponse, ScaleType } from '@/shared/types/reportTypes';
 
 export type ReportListParams = {
   page?: number;

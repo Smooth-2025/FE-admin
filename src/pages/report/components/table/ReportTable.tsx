@@ -5,7 +5,7 @@ import Table from 'antd/es/table';
 import { useState } from 'react';
 
 import BaseModal from '@/shared/components/modal/BaseModal';
-import type { Report } from '@/shared/types/ReportTypes';
+import type { Report } from '@/shared/types/reportTypes';
 
 import * as S from './ReportTable.style';
 

@@ -1,4 +1,4 @@
-import type { Report } from '@/shared/types/ReportTypes';
+import type { Report } from '@/shared/types/reportTypes';
 
 export const REPORT_DUMI: Report[] = [
   {

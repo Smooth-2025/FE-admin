@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import type { ScaleType } from '@/shared/types/ReportTypes';
+import type { ScaleType } from '@/shared/types/reportTypes';
 
 export const EmptyWrapper = styled.div`
   height: 500px;
