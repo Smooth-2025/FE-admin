@@ -28,7 +28,6 @@ export const reportApi = baseApi.injectEndpoints({
       transformResponse: (res: ReportResponse): PagedResponse<Report> => res.data!,
       serializeQueryArgs: ({ endpointName, queryArgs }) => {
         const p = buildParams(queryArgs);
-        console.log(p);
         let key = `${endpointName}|page=${p.page}&start=${p.start}&end=${p.end}`;
         if (p.type !== null) {
           key += `&type=${p.type}`;
