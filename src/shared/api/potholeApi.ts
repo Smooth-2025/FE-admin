@@ -38,12 +38,12 @@ export const potholeApi = baseApi.injectEndpoints({
       providesTags: (result) =>
         result?.content
           ? [
-            ...result.content.map((i: Pothole) => ({
-              type: 'Potholes' as const,
-              id: i.potholeId,
-            })),
-            { type: 'Potholes' as const, id: 'LIST' },
-          ]
+              ...result.content.map((i: Pothole) => ({
+                type: 'Potholes' as const,
+                id: i.potholeId,
+              })),
+              { type: 'Potholes' as const, id: 'LIST' },
+            ]
           : [{ type: 'Potholes' as const, id: 'LIST' }],
       keepUnusedDataFor: 3600,
     }),
@@ -64,12 +64,12 @@ export const potholeApi = baseApi.injectEndpoints({
       providesTags: (result) =>
         result
           ? [
-            ...result.map((i: Pothole) => ({
-              type: 'Potholes' as const,
-              id: i.potholeId,
-            })),
-            { type: 'Potholes' as const, id: 'ALL' },
-          ]
+              ...result.map((i: Pothole) => ({
+                type: 'Potholes' as const,
+                id: i.potholeId,
+              })),
+              { type: 'Potholes' as const, id: 'ALL' },
+            ]
           : [{ type: 'Potholes' as const, id: 'ALL' }],
       keepUnusedDataFor: 3600,
     }),
@@ -77,5 +77,10 @@ export const potholeApi = baseApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useGetPotholeListQuery, useLazyGetPotholeListQuery, useConfirmPotholeMutation, useGetAllPotholesQuery } =
-  potholeApi;
+export const {
+  useGetPotholeListQuery,
+  useLazyGetPotholeListQuery,
+  useConfirmPotholeMutation,
+  useGetAllPotholesQuery,
+  useLazyGetAllPotholesQuery,
+} = potholeApi;
