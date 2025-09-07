@@ -12,6 +12,7 @@ export const FilterItem = styled.div`
   gap: 4px;
 
   & span {
+    font-size: ${({ theme }) => theme.fontSize[14]};
     font-weight: 500;
   }
 `;
@@ -23,6 +24,7 @@ export const WideFilterItem = styled.div`
   min-width: 120px;
 
   & span {
+    font-size: ${({ theme }) => theme.fontSize[14]};
     font-weight: 500;
   }
 `;

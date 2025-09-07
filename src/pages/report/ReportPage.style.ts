@@ -10,10 +10,11 @@ export const Wrapper = styled.div`
   justify-content: space-between;
   flex-direction: column;
   width: 100%;
-  gap: 30px;
+  gap: 20px;
 `;
 
 export const ReportSection = styled.div`
   display: flex;
   align-items: center;
+  margin-top: 20px;
 `;
