@@ -18,7 +18,7 @@ export const Container = styled.div`
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  width: 90%;
   max-width: 1512px;
   height: 70px;
 `;
