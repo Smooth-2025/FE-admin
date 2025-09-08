@@ -69,11 +69,10 @@ export default function PotholeTable({
       render: (_, record) => `${record.location.latitude}, ${record.location.longitude}`,
     },
     {
-      title: '발생 시각',
+      title: '발생 일자',
       dataIndex: 'detectedAt',
       key: 'detectedAt',
-      render: (value: string) => new Date(value).toLocaleString(),
-      align: 'left',
+      align: 'center',
     },
     {
       title: '충격량(g)',
