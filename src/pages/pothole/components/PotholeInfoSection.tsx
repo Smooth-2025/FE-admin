@@ -1,43 +1,46 @@
-import * as S from '@report/ReportPage.style';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import ReportFilter from '@/pages/report/components/table/ReportFilter';
-import ReportTable from '@/pages/report/components/table/ReportTable';
-import { useLazyGetReportListQuery } from '@/shared/api/reportApi';
+import DownloadExcelButton from '@/pages/pothole/components/table/DownloadExcelButton';
+import PotholeFilter from '@/pages/pothole/components/table/PotholeFilter';
+import PotholeTable from '@/pages/pothole/components/table/PotholeTable';
+import { useLazyGetPotholeListQuery } from '@/shared/api/potholeApi';
 
-type ScaleType = 'all' | 'medium' | 'high';
+import * as S from './PotholeInfoSection.style';
+
+type ConfirmedType = 'all' | 'true' | 'false';
 
 export type FilterData = {
   page: number;
   start: string;
   end: string;
-  scale: ScaleType;
+  confirmed: ConfirmedType;
 };
 
-export default function ReportPage() {
+export default function PotholeInfoSection() {
   const [searchParams, setSearchParams] = useSearchParams();
   const defaultPage = Number(searchParams.get('page') || 1);
   const defaultStart = searchParams.get('start') || '2025-08-01';
   const defaultEnd = searchParams.get('end') || dayjs().format('YYYY-MM-DD');
-  const scaleParam = searchParams.get('scale');
-  const defaultType: ScaleType =
-    !scaleParam || scaleParam === 'all' ? 'all' : (scaleParam as ScaleType);
+  const confirmedParam = searchParams.get('confirmed');
+  const defaultConfirmed: ConfirmedType =
+    !confirmedParam || confirmedParam === 'all' ? 'all' : (confirmedParam as ConfirmedType);
 
   const [filterData, setFilterData] = useState<FilterData>({
     page: defaultPage,
     start: defaultStart ?? '',
     end: defaultEnd ?? '',
-    scale: defaultType,
+    confirmed: defaultConfirmed,
   });
-  const [trigger, { data, isLoading }] = useLazyGetReportListQuery();
+
+  const [trigger, { data, isLoading }] = useLazyGetPotholeListQuery();
 
   const handleSearch = () => {
     trigger({
       ...filterData,
       page: 0,
-      scale: filterData.scale === 'all' ? null : filterData.scale,
+      confirmed: filterData.confirmed === 'all' ? null : filterData.confirmed,
     });
     setSearchParams({
       ...filterData,
@@ -58,30 +61,34 @@ export default function ReportPage() {
     trigger({
       ...filterData,
       page: newPage - 1,
-      scale: filterData.scale === 'all' ? null : filterData.scale,
+      confirmed: filterData.confirmed === 'all' ? null : filterData.confirmed,
     });
     setSearchParams({ ...filterData, page: String(newPage) });
   };
 
   return (
-    <S.Container>
+    <>
       <S.Wrapper>
-        <S.ReportSection>
-          <ReportFilter
+        <S.FilterSection>
+          <PotholeFilter
             filterData={filterData}
             setFilterData={setFilterData}
             onSearch={handleSearch}
           />
-        </S.ReportSection>
+        </S.FilterSection>
 
-        <ReportTable
-          data={data?.content}
-          isLoading={isLoading}
-          currentPage={filterData.page}
-          onPageChange={handlePageChange}
-          pageSize={data?.totalPages ?? 1}
-        />
+        <S.ActionSection>
+          <DownloadExcelButton />
+        </S.ActionSection>
       </S.Wrapper>
-    </S.Container>
+
+      <PotholeTable
+        data={data?.content}
+        isLoading={isLoading}
+        currentPage={filterData.page}
+        onPageChange={handlePageChange}
+        pageSize={data?.totalPages ?? 1}
+      />
+    </>
   );
 }

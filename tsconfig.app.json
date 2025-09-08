@@ -1,4 +1,5 @@
 {
+  "extends": "./tsconfig.json",
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "ES2022",
@@ -29,21 +30,30 @@
     "paths": {
       "@/*": ["*"],
       "@app/*": ["app/*"],
-      "@images/*": ["images/*"],
+      "@images/*": ["assets/images/*"],
       "@fonts/*": ["assets/fonts/*"],
+
       "@api/*": ["shared/api/*"],
+      "@components/*": ["shared/components/*"],
       "@hooks/*": ["shared/hooks/*"],
       "@store/*": ["shared/store/*"],
       "@styles/*": ["shared/styles/*"],
       "@utils/*": ["shared/utils/*"],
+      "@shared-types/*": ["shared/types/*"],
+
       "@login/*": ["pages/login/*"],
-      "@login": ["pages/login/index.tsx"],
-      "@potholes/*": ["pages/potholes/*"],
-      "@pothole": ["pages/potholes/index.tsx"],
-      "@reports/*": ["pages/reports/*"],
-      "@report": ["pages/reports/index.tsx"],
-      "@notfound": ["pages/notfound/index.tsx"]
-    }
+      "@login": ["pages/login"],
+
+      "@pothole/*": ["pages/pothole/*"],
+      "@pothole": ["pages/pothole"],
+
+      "@report/*": ["pages/report/*"],
+      "@report": ["pages/report"],
+
+      "@notfound/*": ["pages/notfound/*"],
+      "@notfound": ["pages/notfound"]
+    },
+    "types": ["vite/client"]
   },
   "include": ["src"]
 }
