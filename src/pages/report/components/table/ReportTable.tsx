@@ -111,6 +111,18 @@ export default function ReportTable({
     }
   };
 
+  function parseDate(value?: string): string {
+    if (!value) return '-';
+
+    const normalized = value.includes('.')
+      ? value.split('.')[0] // "2025-09-08T01:59:19"
+      : value;
+
+    const utcDate = normalized + 'Z';
+
+    return new Date(utcDate).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
+  }
+
   return (
     <>
       <Table
@@ -192,7 +204,7 @@ export default function ReportTable({
                   <label>119신고 시각</label>
                   <p>
                     {selectedData.emergencyResponse?.reportedAt
-                      ? new Date(selectedData.emergencyResponse.reportedAt).toLocaleString()
+                      ? parseDate(selectedData.emergencyResponse.reportedAt)
                       : '-'}
                   </p>
                 </S.InfoRow>
