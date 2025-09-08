@@ -35,7 +35,7 @@ const MapWrapper = styled.div`
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  height: 600px;
+  height: 60vh;
 `;
 
 const LoadingContainer = styled.div`
@@ -44,7 +44,7 @@ const LoadingContainer = styled.div`
 `;
 
 const LoadingMessage = styled.div`
-  height: 600px;
+  height: 60vh;
   display: flex;
   align-items: center;
   justify-content: center;
