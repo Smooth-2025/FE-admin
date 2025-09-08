@@ -144,11 +144,11 @@ export default function ReportTable({
                 <h2>사용자 정보</h2>
                 <S.InfoRow>
                   <label>ID</label>
-                  <p>{selectedData.user.userId}</p>
+                  <p>{selectedData.user?.userId}</p>
                 </S.InfoRow>
                 <S.InfoRow>
                   <label>사용자</label>
-                  <p>{selectedData.user.userName}</p>
+                  <p>{selectedData.user?.userName}</p>
                 </S.InfoRow>
               </S.Section>
               <S.Section>
@@ -161,38 +161,52 @@ export default function ReportTable({
                 <S.InfoRow>
                   <label>GPS</label>
                   <p>
-                    {selectedData.location.latitude}, {selectedData.location.longitude}
-                  </p>
-                </S.InfoRow>
-
-                <S.InfoRow>
-                  <label>감속 정보</label>
-                  <p>
-                    {selectedData.deceleration.decel} , {selectedData.deceleration.startSpeed} →
-                    {selectedData.deceleration.endSpeed}
+                    {selectedData.location?.latitude}, {selectedData.location?.longitude}
                   </p>
                 </S.InfoRow>
 
                 <S.InfoRow>
                   <label>심각도</label>
                   <p>
-                    {selectedData.impulse}, {selectedData.scale}
+                    {selectedData.impulse},{' '}
+                    {selectedData.scale === 'high'
+                      ? '심각'
+                      : selectedData.scale === 'medium'
+                        ? '보통'
+                        : '-'}
                   </p>
                 </S.InfoRow>
 
                 <S.InfoRow>
                   <label>신고 유무</label>
-                  <p>{selectedData.emergencyResponse.emergencyNotified ? '신고 완료' : '미신고'}</p>
+                  <p>
+                    {selectedData.emergencyResponse?.emergencyNotified === true
+                      ? '신고 완료'
+                      : selectedData.emergencyResponse?.emergencyNotified === false
+                        ? '미신고'
+                        : '-'}
+                  </p>
                 </S.InfoRow>
 
                 <S.InfoRow>
                   <label>119신고 시각</label>
-                  <p>{new Date(selectedData.emergencyResponse.reportedAt).toLocaleString()}</p>
+                  <p>
+                    {selectedData.emergencyResponse?.reportedAt
+                      ? new Date(selectedData.emergencyResponse.reportedAt).toLocaleString()
+                      : '-'}
+                  </p>
                 </S.InfoRow>
 
                 <S.InfoRow>
                   <label>응급 연락 문자 전송</label>
-                  <p>{selectedData.emergencyResponse.familyNotified ? '전송완료' : '미전송'}</p>
+
+                  <p>
+                    {selectedData.emergencyResponse?.familyNotified === true
+                      ? '전송완료'
+                      : selectedData.emergencyResponse?.familyNotified === false
+                        ? '미전송'
+                        : '-'}
+                  </p>
                 </S.InfoRow>
               </S.Section>
               <S.Section>

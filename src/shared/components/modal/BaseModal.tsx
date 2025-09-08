@@ -18,7 +18,7 @@ export default function BaseModal({ open, onClose, type = 'center', title, child
       {children}
     </Modal>
   ) : (
-    <Drawer open={open} onClose={onClose} title={title} placement="right">
+    <Drawer open={open} onClose={onClose} title={title} placement="right" width={600}>
       {children}
     </Drawer>
   );
