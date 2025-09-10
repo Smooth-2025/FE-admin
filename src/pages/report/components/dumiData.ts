@@ -6,7 +6,6 @@ export const REPORT_DUMI: Report[] = [
     user: { userId: 'U001', userName: '홍길동' },
     location: { latitude: 37.5665, longitude: 126.978 },
     accidentAt: '2025-08-28T08:30:00Z',
-    deceleration: { decel: -8.2, startSpeed: 60, endSpeed: 5 },
     emergencyResponse: {
       emergencyNotified: true,
       familyNotified: true,
@@ -43,7 +42,6 @@ export const REPORT_DUMI: Report[] = [
     user: { userId: 'U002', userName: '김철수' },
     location: { latitude: 35.1796, longitude: 129.0756 },
     accidentAt: '2025-08-28T14:15:00Z',
-    deceleration: { decel: -3.5, startSpeed: 50, endSpeed: 20 },
     emergencyResponse: {
       emergencyNotified: false,
       familyNotified: false,
@@ -80,7 +78,6 @@ export const REPORT_DUMI: Report[] = [
     user: { userId: 'U003', userName: '이영희' },
     location: { latitude: 37.4563, longitude: 126.7052 },
     accidentAt: '2025-08-28T19:40:00Z',
-    deceleration: { decel: -7.0, startSpeed: 70, endSpeed: 10 },
     emergencyResponse: {
       emergencyNotified: true,
       familyNotified: false,
@@ -117,7 +114,6 @@ export const REPORT_DUMI: Report[] = [
     user: { userId: 'U004', userName: '박민수' },
     location: { latitude: 36.3504, longitude: 127.3845 },
     accidentAt: '2025-08-28T11:05:00Z',
-    deceleration: { decel: -2.0, startSpeed: 30, endSpeed: 25 },
     emergencyResponse: {
       emergencyNotified: false,
       familyNotified: true,
@@ -154,7 +150,6 @@ export const REPORT_DUMI: Report[] = [
     user: { userId: 'U005', userName: '최지훈' },
     location: { latitude: 35.9078, longitude: 127.7669 },
     accidentAt: '2025-08-28T22:20:00Z',
-    deceleration: { decel: -5.5, startSpeed: 55, endSpeed: 0 },
     emergencyResponse: {
       emergencyNotified: true,
       familyNotified: true,
