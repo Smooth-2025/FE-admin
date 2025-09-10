@@ -21,12 +21,6 @@ export interface Report {
     longitude: number; // 사고 발생 경도
   };
   accidentAt: string; // 사고 발생 시각
-  deceleration: {
-    //감속 정보
-    decel: number; // 감속도 (m/s^2, 음수값일 수 있음)
-    startSpeed: number; //처음 스피드
-    endSpeed: number; //나중 스피드
-  };
   emergencyResponse: {
     // 응급 정보 섹션
     emergencyNotified: boolean; //119 신고 유무
